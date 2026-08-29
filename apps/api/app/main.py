@@ -1,3 +1,4 @@
+import sys
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
@@ -5,11 +6,17 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.health import router as health_router
 from app.api.cases import router as cases_router
+from app.config import settings, ConfigError
 from app.db.database import init_db
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    try:
+        settings.validate()
+    except ConfigError as e:
+        print(f"\n[STARTUP ERROR] {e}\n", file=sys.stderr)
+        sys.exit(1)
     await init_db()
     yield
 

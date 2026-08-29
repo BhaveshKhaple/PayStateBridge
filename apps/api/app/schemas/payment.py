@@ -8,6 +8,16 @@ from uuid import UUID, uuid4
 from pydantic import BaseModel, Field
 
 
+class RecoveryPermit(BaseModel):
+    case_id: UUID
+    original_payment_id: str
+    order_id: str
+    amount_paise: int
+    idempotency_key: str
+    expires_at: datetime
+    environment: Literal["test"]
+
+
 class EvidenceSource(str, Enum):
     CUSTOMER_REPORT = "customer_report"
     SYNTHETIC_SCREENSHOT = "synthetic_screenshot"

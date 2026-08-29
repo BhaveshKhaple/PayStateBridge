@@ -254,3 +254,28 @@ from app.db.screenshot_fixtures import list_fixtures as list_screenshot_fixtures
 async def list_synthetic_screenshot_fixtures() -> list[dict]:
     """List available synthetic screenshot fixtures for demo/testing."""
     return list_screenshot_fixtures()
+
+
+from app.services.permit_service import PermitDeniedError, issue_recovery_permit
+
+
+@router.post("/{case_id}/recovery-permit")
+async def issue_permit_route(
+    case_id: str, db: AsyncSession = Depends(get_db)
+) -> dict:
+    try:
+        permit = await issue_recovery_permit(db, case_id)
+        return {
+            "permit_issued": True,
+            "case_id": str(permit.case_id),
+            "order_id": permit.order_id,
+            "amount_paise": permit.amount_paise,
+            "idempotency_key": permit.idempotency_key,
+            "expires_at": permit.expires_at.isoformat(),
+            "environment": permit.environment,
+            "note": "Razorpay Test Mode only. Use idempotency_key to fetch recovery link.",
+        }
+    except PermitDeniedError as e:
+        raise HTTPException(status_code=422, detail=str(e))
+    except CaseNotFoundError as e:
+        raise HTTPException(status_code=404, detail=str(e))
