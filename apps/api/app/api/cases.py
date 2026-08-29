@@ -213,3 +213,35 @@ async def get_evidence_packet_route(
         raise HTTPException(status_code=422, detail=str(e))
     except CaseNotFoundError as e:
         raise HTTPException(status_code=404, detail=str(e))
+
+
+# --- Extraction route ---
+from app.services.extraction_service import extract_and_attach
+
+
+class ExtractEvidenceRequest(BaseModel):
+    text: str | None = None
+    screenshot_fixture: str | None = None  # e.g. "phonepay_success_999"
+
+
+@router.post("/{case_id}/extract-evidence")
+async def extract_evidence_route(
+    case_id: str,
+    body: ExtractEvidenceRequest,
+    db: AsyncSession = Depends(get_db),
+) -> dict:
+    if not body.text and not body.screenshot_fixture:
+        raise HTTPException(
+            status_code=422,
+            detail="Provide either 'text' or 'screenshot_fixture'.",
+        )
+    try:
+        result = await extract_and_attach(
+            db,
+            case_id,
+            text=body.text,
+            screenshot_fixture=body.screenshot_fixture,
+        )
+        return result
+    except CaseNotFoundError as e:
+        raise HTTPException(status_code=404, detail=str(e))
