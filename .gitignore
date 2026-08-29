@@ -39,3 +39,15 @@ test-results/
 
 # Build
 .turbo/
+
+# Eval reports
+eval_report.json
+*.eval.json
+
+# Test databases
+paystate_test.db
+paystate_ci.db
+
+# Coverage
+.coverage
+htmlcov/
