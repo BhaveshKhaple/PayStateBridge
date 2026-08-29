@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 export default function HomePage() {
   return (
     <main className="min-h-screen flex flex-col items-center justify-center px-4 py-16">
@@ -27,6 +29,24 @@ export default function HomePage() {
           </p>
         </div>
 
+        {/* CTA */}
+        <div className="flex flex-col sm:flex-row gap-3 justify-center">
+          <Link
+            href="/cases"
+            className="px-6 py-3 bg-gray-900 text-white rounded-lg font-medium hover:bg-gray-700 transition-colors"
+          >
+            Open Merchant Console
+          </Link>
+          <a
+            href="http://localhost:8000/docs"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-6 py-3 bg-white border border-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors"
+          >
+            API Docs →
+          </a>
+        </div>
+
         {/* Track info */}
         <div className="flex flex-wrap justify-center gap-3 text-sm text-gray-500">
           <span className="bg-gray-100 px-3 py-1 rounded">
@@ -39,14 +59,6 @@ export default function HomePage() {
             Deadline: 05/09/2026
           </span>
         </div>
-
-        {/* Status */}
-        <p className="text-sm text-gray-400">
-          API status:{' '}
-          <code className="bg-gray-100 px-1 rounded">
-            GET http://localhost:8000/health
-          </code>
-        </p>
       </div>
     </main>
   )
