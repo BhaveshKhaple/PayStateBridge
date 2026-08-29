@@ -230,13 +230,30 @@ export default async function CaseDetailPage({
             </div>
           )}
 
-          {/* FAILED — recovery link (Slice 4) */}
+          {/* FAILED — recovery link */}
           {caseData.action === 'CREATE_RECOVERY_PERMIT' && (
-            <div className="flex items-center gap-3">
-              <button className="px-4 py-2 text-sm rounded bg-blue-600 text-white hover:bg-blue-700 font-medium">
-                Create Test Mode recovery link
-              </button>
-              <span className="text-xs text-gray-400">Razorpay Test Mode — implemented in Slice 4</span>
+            <div className="space-y-2">
+              <div className="flex items-center gap-3">
+                <a
+                  href={`/api/v1/cases/${caseData.id}/recovery-permit`}
+                  className="px-4 py-2 text-sm rounded bg-blue-600 text-white hover:bg-blue-700 font-medium"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Issue recovery permit &rarr;
+                </a>
+                <a
+                  href={`/api/v1/cases/${caseData.id}/recovery-link`}
+                  className="px-4 py-2 text-sm rounded bg-indigo-600 text-white hover:bg-indigo-700 font-medium"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Create Test Mode link &rarr;
+                </a>
+              </div>
+              <p className="text-xs text-gray-400">
+                Razorpay Test Mode only &middot; FakeProvider in CI &middot; No real money
+              </p>
             </div>
           )}
 

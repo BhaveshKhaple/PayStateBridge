@@ -38,8 +38,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+from app.api.webhooks import router as webhooks_router
+
 app.include_router(health_router)
 app.include_router(cases_router)
+app.include_router(webhooks_router)
 
 
 @app.get("/")
