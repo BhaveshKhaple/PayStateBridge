@@ -155,3 +155,46 @@ async def reconcile_case_route(
         raise HTTPException(status_code=422, detail=str(e))
     except CaseNotFoundError as e:
         raise HTTPException(status_code=404, detail=str(e))
+
+
+from pydantic import BaseModel as _BaseModel
+
+
+class DuplicateReviewDecisionRequest(_BaseModel):
+    decision: str  # "approve_refund_review" | "reject"
+    notes: str = ""
+
+
+from app.services.duplicate_review_service import (
+    DuplicateReviewError,
+    open_duplicate_review,
+    record_review_decision,
+)
+
+
+@router.post("/{case_id}/duplicate-review")
+async def open_duplicate_review_route(
+    case_id: str, db: AsyncSession = Depends(get_db)
+) -> dict:
+    try:
+        return await open_duplicate_review(db, case_id)
+    except DuplicateReviewError as e:
+        raise HTTPException(status_code=422, detail=str(e))
+    except CaseNotFoundError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+
+
+@router.post("/{case_id}/duplicate-review/approve")
+async def record_duplicate_review_decision_route(
+    case_id: str,
+    body: DuplicateReviewDecisionRequest,
+    db: AsyncSession = Depends(get_db),
+) -> dict:
+    try:
+        return await record_review_decision(
+            db, case_id, decision=body.decision, notes=body.notes
+        )
+    except DuplicateReviewError as e:
+        raise HTTPException(status_code=422, detail=str(e))
+    except CaseNotFoundError as e:
+        raise HTTPException(status_code=404, detail=str(e))
