@@ -137,3 +137,21 @@ async def classify_case_route(
         }
     except CaseNotFoundError as e:
         raise HTTPException(status_code=404, detail=str(e))
+
+
+from app.services.reconcile_service import AmbiguousMatchError, ReconcileError, reconcile_order
+
+
+@router.post("/{case_id}/reconcile")
+async def reconcile_case_route(
+    case_id: str, db: AsyncSession = Depends(get_db)
+) -> dict:
+    try:
+        result = await reconcile_order(db, case_id)
+        return result
+    except AmbiguousMatchError as e:
+        raise HTTPException(status_code=409, detail=f"Ambiguous match: {e}")
+    except ReconcileError as e:
+        raise HTTPException(status_code=422, detail=str(e))
+    except CaseNotFoundError as e:
+        raise HTTPException(status_code=404, detail=str(e))
