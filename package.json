@@ -1,0 +1,16 @@
+{
+  "name": "paystate-bridge",
+  "private": true,
+  "scripts": {
+    "dev:web": "npm run dev --workspace=apps/web",
+    "dev:api": "cd apps/api && .venv/Scripts/uvicorn app.main:app --reload --port 8000",
+    "lint": "npm run lint --workspace=apps/web",
+    "typecheck": "npm run typecheck --workspace=apps/web",
+    "test": "cd apps/api && .venv/Scripts/pytest",
+    "build": "npm run build --workspace=apps/web",
+    "eval": "cd apps/api && .venv/Scripts/python -m app.evals.runner"
+  },
+  "workspaces": [
+    "apps/web"
+  ]
+}
