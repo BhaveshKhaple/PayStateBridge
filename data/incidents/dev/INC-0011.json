@@ -1,0 +1,26 @@
+{
+  "incident_id": "INC-0011",
+  "split": "dev",
+  "scenario": "WRONG_RECIPIENT",
+  "description": "Customer accidentally sent UPI payment to a different merchant's VPA. Merchant cannot reverse.",
+  "merchant_order": {
+    "order_id": "ORD-1052",
+    "reference": "ORD-1052",
+    "amount_paise": 59900,
+    "status": "payment_pending",
+    "created_at": "2026-08-30T13:30:00Z"
+  },
+  "gateway_events": [],
+  "customer_report": {
+    "message": "I accidentally typed the wrong UPI ID and sent ₹599 to someone else instead of your store.",
+    "amount_paise": 59900,
+    "reported_status": "success",
+    "utr_like_reference": "SYN-UTR-20260830-011",
+    "occurred_at": "2026-08-30T13:35:00Z",
+    "source": "customer_report"
+  },
+  "expected_state": "WRONG_RECIPIENT",
+  "expected_action": "OFFICIAL_ROUTE_GUIDANCE",
+  "simulated_gmv_paise": 0,
+  "notes": "scenario_hint=WRONG_RECIPIENT. Merchant cannot reverse wrong-recipient UPI. Guide customer to NPCI/bank grievance portal."
+}

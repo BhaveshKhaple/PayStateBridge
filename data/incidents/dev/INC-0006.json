@@ -1,0 +1,37 @@
+{
+  "incident_id": "INC-0006",
+  "split": "dev",
+  "scenario": "CAPTURED_UNLINKED",
+  "description": "Amount matches, reference matches, order not linked. Smaller ₹499 order. Gateway captured.",
+  "merchant_order": {
+    "order_id": "ORD-1047",
+    "reference": "ORD-1047",
+    "amount_paise": 49900,
+    "status": "payment_pending",
+    "created_at": "2026-08-30T11:00:00Z"
+  },
+  "gateway_events": [
+    {
+      "provider": "synthetic",
+      "provider_payment_id": "SYN-PAY-20260830-006",
+      "provider_order_id": "ORD-1047",
+      "amount_paise": 49900,
+      "status": "captured",
+      "occurred_at": "2026-08-30T11:01:00Z",
+      "raw_event_id": "SYN-EVT-20260830-006",
+      "source": "gateway_event"
+    }
+  ],
+  "customer_report": {
+    "message": "Paid ₹499 via Google Pay. Money gone but no confirmation received.",
+    "amount_paise": 49900,
+    "reported_status": "success",
+    "utr_like_reference": "SYN-UTR-20260830-006",
+    "occurred_at": "2026-08-30T11:05:00Z",
+    "source": "customer_report"
+  },
+  "expected_state": "CAPTURED_UNLINKED",
+  "expected_action": "RECONCILE_ORDER",
+  "simulated_gmv_paise": 49900,
+  "notes": "Same CAPTURED_UNLINKED pattern as INC-0005 but for a ₹499 purchase. Reconcile without re-charging."
+}

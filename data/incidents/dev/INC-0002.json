@@ -1,0 +1,26 @@
+{
+  "incident_id": "INC-0002",
+  "split": "dev",
+  "scenario": "OUTCOME_UNKNOWN",
+  "description": "No gateway event found at all; customer claims payment is pending in their bank app.",
+  "merchant_order": {
+    "order_id": "ORD-1043",
+    "reference": "ORD-1043",
+    "amount_paise": 49900,
+    "status": "payment_pending",
+    "created_at": "2026-08-30T09:00:00Z"
+  },
+  "gateway_events": [],
+  "customer_report": {
+    "message": "My HDFC app shows a debit of ₹499 but the payment status on your site keeps loading.",
+    "amount_paise": 49900,
+    "reported_status": "pending",
+    "utr_like_reference": "SYN-UTR-20260830-002",
+    "occurred_at": "2026-08-30T09:05:00Z",
+    "source": "customer_report"
+  },
+  "expected_state": "OUTCOME_UNKNOWN",
+  "expected_action": "DO_NOT_RETRY",
+  "simulated_gmv_paise": 0,
+  "notes": "No gateway event present. Cannot confirm any outcome. Customer report alone is not authoritative. Build evidence packet."
+}

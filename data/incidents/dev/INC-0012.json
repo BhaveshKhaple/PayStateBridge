@@ -1,0 +1,26 @@
+{
+  "incident_id": "INC-0012",
+  "split": "dev",
+  "scenario": "WRONG_RECIPIENT",
+  "description": "Customer sent payment to a family member's saved UPI ID by mistake, not to the merchant.",
+  "merchant_order": {
+    "order_id": "ORD-1053",
+    "reference": "ORD-1053",
+    "amount_paise": 119900,
+    "status": "payment_pending",
+    "created_at": "2026-08-30T14:00:00Z"
+  },
+  "gateway_events": [],
+  "customer_report": {
+    "message": "I sent ₹1199 to my brother's UPI ID by mistake instead of selecting your payment QR.",
+    "amount_paise": 119900,
+    "reported_status": "success",
+    "utr_like_reference": "SYN-UTR-20260830-012",
+    "occurred_at": "2026-08-30T14:05:00Z",
+    "source": "customer_report"
+  },
+  "expected_state": "WRONG_RECIPIENT",
+  "expected_action": "OFFICIAL_ROUTE_GUIDANCE",
+  "simulated_gmv_paise": 0,
+  "notes": "scenario_hint=WRONG_RECIPIENT. Merchant cannot touch funds in wrong recipient's account. Official bank or NPCI grievance is the only path."
+}

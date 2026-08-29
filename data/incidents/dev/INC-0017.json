@@ -1,0 +1,37 @@
+{
+  "incident_id": "INC-0017",
+  "split": "dev",
+  "scenario": "OUTCOME_UNKNOWN",
+  "description": "Amount mismatch — customer reports ₹999 but gateway event shows ₹500 captured. Cannot auto-reconcile.",
+  "merchant_order": {
+    "order_id": "ORD-1058",
+    "reference": "ORD-1058",
+    "amount_paise": 99900,
+    "status": "payment_pending",
+    "created_at": "2026-08-30T16:30:00Z"
+  },
+  "gateway_events": [
+    {
+      "provider": "synthetic",
+      "provider_payment_id": "SYN-PAY-20260830-017",
+      "provider_order_id": "ORD-1058",
+      "amount_paise": 50000,
+      "status": "captured",
+      "occurred_at": "2026-08-30T16:31:00Z",
+      "raw_event_id": "SYN-EVT-20260830-017",
+      "source": "gateway_event"
+    }
+  ],
+  "customer_report": {
+    "message": "I paid ₹999 but only ₹500 seems to have gone through. Something is wrong.",
+    "amount_paise": 99900,
+    "reported_status": "success",
+    "utr_like_reference": "SYN-UTR-20260830-017",
+    "occurred_at": "2026-08-30T16:35:00Z",
+    "source": "customer_report"
+  },
+  "expected_state": "OUTCOME_UNKNOWN",
+  "expected_action": "BUILD_EVIDENCE_PACKET",
+  "simulated_gmv_paise": 0,
+  "notes": "Amount mismatch between customer report (₹999) and gateway event (₹500). Cannot auto-reconcile. Build evidence packet."
+}

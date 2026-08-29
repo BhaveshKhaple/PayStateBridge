@@ -1,0 +1,37 @@
+{
+  "incident_id": "INC-0014",
+  "split": "dev",
+  "scenario": "PENDING",
+  "description": "Customer's mobile data cut during payment flow. App closed mid-transaction. Gateway shows pending.",
+  "merchant_order": {
+    "order_id": "ORD-1055",
+    "reference": "ORD-1055",
+    "amount_paise": 89900,
+    "status": "payment_pending",
+    "created_at": "2026-08-30T15:00:00Z"
+  },
+  "gateway_events": [
+    {
+      "provider": "synthetic",
+      "provider_payment_id": "SYN-PAY-20260830-014",
+      "provider_order_id": "ORD-1055",
+      "amount_paise": 89900,
+      "status": "pending",
+      "occurred_at": "2026-08-30T15:01:30Z",
+      "raw_event_id": "SYN-EVT-20260830-014",
+      "source": "gateway_event"
+    }
+  ],
+  "customer_report": {
+    "message": "My internet dropped while paying. The app crashed. I don't know if it went through.",
+    "amount_paise": null,
+    "reported_status": "unknown",
+    "utr_like_reference": null,
+    "occurred_at": "2026-08-30T15:10:00Z",
+    "source": "customer_report"
+  },
+  "expected_state": "PENDING",
+  "expected_action": "DO_NOT_RETRY",
+  "simulated_gmv_paise": 0,
+  "notes": "Network dropout mid-payment. Gateway status is PENDING. Hold — do not retry, do not create new link."
+}

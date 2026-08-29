@@ -1,0 +1,37 @@
+{
+  "incident_id": "INC-0019",
+  "split": "dev",
+  "scenario": "FAILED",
+  "description": "Payment session expired due to customer taking too long. Gateway returned final failure. Safe to retry.",
+  "merchant_order": {
+    "order_id": "ORD-1060",
+    "reference": "ORD-1060",
+    "amount_paise": 99900,
+    "status": "payment_pending",
+    "created_at": "2026-08-30T17:30:00Z"
+  },
+  "gateway_events": [
+    {
+      "provider": "synthetic",
+      "provider_payment_id": "SYN-PAY-20260830-019",
+      "provider_order_id": "ORD-1060",
+      "amount_paise": 99900,
+      "status": "failed",
+      "occurred_at": "2026-08-30T17:45:00Z",
+      "raw_event_id": "SYN-EVT-20260830-019",
+      "source": "gateway_event"
+    }
+  ],
+  "customer_report": {
+    "message": "My OTP page expired while I was looking for my card. Payment failed I think.",
+    "amount_paise": 99900,
+    "reported_status": "failed",
+    "utr_like_reference": null,
+    "occurred_at": "2026-08-30T17:50:00Z",
+    "source": "customer_report"
+  },
+  "expected_state": "FAILED",
+  "expected_action": "CREATE_RECOVERY_PERMIT",
+  "simulated_gmv_paise": 99900,
+  "notes": "OTP session expiry → gateway final failed. Customer confirms failure. Safe to prepare one recovery link."
+}

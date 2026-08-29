@@ -1,0 +1,26 @@
+{
+  "incident_id": "INC-0009",
+  "split": "dev",
+  "scenario": "OUTCOME_UNKNOWN",
+  "description": "No gateway event present. Customer reports payment as pending. Evidence packet needed before any action.",
+  "merchant_order": {
+    "order_id": "ORD-1050",
+    "reference": "ORD-1050",
+    "amount_paise": 79900,
+    "status": "payment_pending",
+    "created_at": "2026-08-30T12:30:00Z"
+  },
+  "gateway_events": [],
+  "customer_report": {
+    "message": "My Paytm shows the payment as pending for the last 2 hours. Is the order placed?",
+    "amount_paise": 79900,
+    "reported_status": "pending",
+    "utr_like_reference": "SYN-UTR-20260830-009",
+    "occurred_at": "2026-08-30T14:30:00Z",
+    "source": "customer_report"
+  },
+  "expected_state": "OUTCOME_UNKNOWN",
+  "expected_action": "DO_NOT_RETRY",
+  "simulated_gmv_paise": 0,
+  "notes": "No gateway event. Customer report of pending is context only. OUTCOME_UNKNOWN — cannot issue recovery link."
+}
