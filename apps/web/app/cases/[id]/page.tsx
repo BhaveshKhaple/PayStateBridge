@@ -168,40 +168,104 @@ export default async function CaseDetailPage({
         {/* Safe customer message */}
         <SafeCustomerMessage message={caseData.customer_message} />
 
-        {/* Recovery link — blocked or future */}
+        {/* Recovery action panel */}
         <div className="bg-white rounded-lg border border-gray-200 p-5">
           <h3 className="text-sm font-medium text-gray-900 mb-3">Recovery action</h3>
-          {recoveryLinkBlocked ? (
-            <div className="flex items-center gap-3">
-              <button
-                disabled
-                className="px-4 py-2 text-sm rounded bg-gray-100 text-gray-400 border border-gray-200 cursor-not-allowed"
-                title="Blocked: original payment is pending or outcome unknown"
-              >
-                Create recovery link
-              </button>
-              <p className="text-xs text-gray-500">
-                Blocked while payment is {caseData.payment_state}
-              </p>
+
+          {/* PENDING / OUTCOME_UNKNOWN — blocked */}
+          {recoveryLinkBlocked && (
+            <div className="space-y-3">
+              <div className="flex items-center gap-3">
+                <button
+                  disabled
+                  className="px-4 py-2 text-sm rounded bg-gray-100 text-gray-400 border border-gray-200 cursor-not-allowed"
+                >
+                  Create recovery link
+                </button>
+                <p className="text-xs text-gray-500">
+                  Blocked while payment is{' '}
+                  <span className="font-mono font-medium">{caseData.payment_state}</span>
+                </p>
+              </div>
+              {isOutcomeUnknown && (
+                <a
+                  href={`/api/v1/cases/${caseData.id}/evidence-packet`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 px-4 py-2 text-sm rounded bg-gray-50 text-gray-700 border border-gray-200 hover:bg-gray-100"
+                >
+                  Download evidence packet →
+                </a>
+              )}
             </div>
-          ) : caseData.action === 'CREATE_RECOVERY_PERMIT' ? (
+          )}
+
+          {/* CAPTURED_UNLINKED — reconcile */}
+          {caseData.action === 'RECONCILE_ORDER' && !recoveryLinkBlocked && (
             <div className="flex items-center gap-3">
-              <button className="px-4 py-2 text-sm rounded bg-blue-600 text-white hover:bg-blue-700">
-                Create Test Mode recovery link
-              </button>
-              <span className="text-xs text-gray-400">Razorpay Test Mode — Slice 4</span>
-            </div>
-          ) : caseData.action === 'RECONCILE_ORDER' ? (
-            <div className="flex items-center gap-3">
-              <button className="px-4 py-2 text-sm rounded bg-green-600 text-white hover:bg-green-700">
+              <button className="px-4 py-2 text-sm rounded bg-green-600 text-white hover:bg-green-700 font-medium">
                 Reconcile order
               </button>
-              <span className="text-xs text-gray-400">Link captured payment to order</span>
+              <span className="text-xs text-gray-500">
+                Links captured payment to order without new charge
+              </span>
             </div>
-          ) : (
-            <p className="text-xs text-gray-500">
-              Action: <span className="font-mono">{caseData.action ?? 'none'}</span>
-            </p>
+          )}
+
+          {/* DUPLICATE_SUCCESS — open review */}
+          {caseData.action === 'OPEN_DUPLICATE_REVIEW' && (
+            <div className="space-y-2">
+              <div className="flex items-center gap-3">
+                <button className="px-4 py-2 text-sm rounded bg-purple-600 text-white hover:bg-purple-700 font-medium">
+                  Open duplicate review
+                </button>
+                <span className="text-xs text-gray-500">
+                  Records both payments — no automatic refund
+                </span>
+              </div>
+              <p className="text-xs text-amber-700 bg-amber-50 px-3 py-1.5 rounded border border-amber-200">
+                Refund requires explicit merchant approval. No automatic refund in v0.
+              </p>
+            </div>
+          )}
+
+          {/* FAILED — recovery link (Slice 4) */}
+          {caseData.action === 'CREATE_RECOVERY_PERMIT' && (
+            <div className="flex items-center gap-3">
+              <button className="px-4 py-2 text-sm rounded bg-blue-600 text-white hover:bg-blue-700 font-medium">
+                Create Test Mode recovery link
+              </button>
+              <span className="text-xs text-gray-400">Razorpay Test Mode — implemented in Slice 4</span>
+            </div>
+          )}
+
+          {/* WRONG_RECIPIENT */}
+          {caseData.payment_state === 'WRONG_RECIPIENT' && (
+            <div className="space-y-2">
+              <p className="text-xs text-red-700 bg-red-50 px-3 py-2 rounded border border-red-200">
+                Wrong-recipient transfer cannot be reversed by the merchant.
+              </p>
+              <a
+                href={`/api/v1/cases/${caseData.id}/evidence-packet`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 px-4 py-2 text-sm rounded bg-gray-50 text-gray-700 border border-gray-200 hover:bg-gray-100"
+              >
+                Official route guidance →
+              </a>
+            </div>
+          )}
+
+          {/* UNAUTHORIZED */}
+          {caseData.action === 'SECURITY_ESCALATION' && (
+            <div className="space-y-2">
+              <p className="text-xs text-red-800 bg-red-100 px-3 py-2 rounded border border-red-300 font-medium">
+                Security escalation — stop normal recovery flow.
+              </p>
+              <p className="text-xs text-gray-500">
+                Customer should contact their bank and use the official cybercrime/security process.
+              </p>
+            </div>
           )}
         </div>
 

@@ -198,3 +198,18 @@ async def record_duplicate_review_decision_route(
         raise HTTPException(status_code=422, detail=str(e))
     except CaseNotFoundError as e:
         raise HTTPException(status_code=404, detail=str(e))
+
+
+from app.services.evidence_packet_service import EvidencePacketError, build_evidence_packet
+
+
+@router.get("/{case_id}/evidence-packet")
+async def get_evidence_packet_route(
+    case_id: str, db: AsyncSession = Depends(get_db)
+) -> dict:
+    try:
+        return await build_evidence_packet(db, case_id)
+    except EvidencePacketError as e:
+        raise HTTPException(status_code=422, detail=str(e))
+    except CaseNotFoundError as e:
+        raise HTTPException(status_code=404, detail=str(e))
