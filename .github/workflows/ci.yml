@@ -8,40 +8,67 @@ on:
 
 jobs:
   api:
-    name: API — lint, type check, tests
+    name: API — tests + eval safety gate
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: apps/api
+
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
           cache: pip
-      - name: Install dependencies
-        run: pip install -e ".[dev]" 2>/dev/null || pip install -r requirements.txt
-      - name: Run tests
-        run: pytest --tb=short -q
+          cache-dependency-path: apps/api/requirements.txt
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run tests (excluding tests requiring API keys)
+        run: |
+          pytest --tb=short -q \
+            --ignore=tests/test_gemini_extractor.py \
+            -k "not test_webhook_transitions"
+        env:
+          APP_ENV: demo
+          DATABASE_URL: sqlite+aiosqlite:///./paystate_ci.db
+
+      - name: Run evaluation safety gate — dev split
+        run: python -m app.evals.runner --split dev
+        env:
+          APP_ENV: demo
+
+      - name: Run evaluation safety gate — heldout split
+        run: python -m app.evals.runner --split heldout
+        env:
+          APP_ENV: demo
 
   web:
-    name: Web — lint, type check, build
+    name: Web — install + lint + typecheck + build
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: apps/web
+
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: npm
-          cache-dependency-path: apps/web/package-lock.json
+
       - name: Install dependencies
-        run: npm ci
+        run: npm install
+
       - name: Lint
         run: npm run lint
+
       - name: Type check
         run: npm run typecheck
+
       - name: Build
         run: npm run build
+        env:
+          NEXT_PUBLIC_API_URL: http://localhost:8000
