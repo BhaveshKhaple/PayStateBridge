@@ -279,3 +279,28 @@ async def issue_permit_route(
         raise HTTPException(status_code=422, detail=str(e))
     except CaseNotFoundError as e:
         raise HTTPException(status_code=404, detail=str(e))
+
+
+from app.services.recovery_link_service import create_recovery_link
+
+
+@router.post("/{case_id}/recovery-link")
+async def create_recovery_link_route(
+    case_id: str, db: AsyncSession = Depends(get_db)
+) -> dict:
+    try:
+        link = await create_recovery_link(db, case_id)
+        return {
+            "link_created": True,
+            "link_id": link.link_id,
+            "short_url": link.short_url,
+            "amount_paise": link.amount_paise,
+            "environment": link.environment,
+            "test_mode_label": link.test_mode_label,
+            "idempotency_key": link.idempotency_key,
+            "expires_at": link.expires_at.isoformat(),
+        }
+    except PermitDeniedError as e:
+        raise HTTPException(status_code=422, detail=str(e))
+    except CaseNotFoundError as e:
+        raise HTTPException(status_code=404, detail=str(e))
