@@ -245,3 +245,12 @@ async def extract_evidence_route(
         return result
     except CaseNotFoundError as e:
         raise HTTPException(status_code=404, detail=str(e))
+
+
+from app.db.screenshot_fixtures import list_fixtures as list_screenshot_fixtures
+
+
+@router.get("/screenshot-fixtures", tags=["evidence"])
+async def list_synthetic_screenshot_fixtures() -> list[dict]:
+    """List available synthetic screenshot fixtures for demo/testing."""
+    return list_screenshot_fixtures()

@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { EvidenceIntakePanel } from '@/components/EvidenceIntakePanel'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
 
@@ -319,6 +320,9 @@ export default async function CaseDetailPage({
             </div>
           )}
         </div>
+
+        {/* AI Evidence Intake */}
+        <EvidenceIntakePanel caseId={caseData.id} />
 
         {/* Audit trail */}
         <div className="bg-white rounded-lg border border-gray-200 p-5">
