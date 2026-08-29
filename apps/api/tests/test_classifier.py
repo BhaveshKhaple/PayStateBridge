@@ -113,7 +113,7 @@ def test_unauthorized_scenario():
 
 # --- Synthetic fixture validation ---
 
-INCIDENTS_DIR = Path(__file__).parent.parent.parent.parent.parent / "data" / "incidents" / "dev"
+INCIDENTS_DIR = Path(__file__).parent.parent.parent.parent / "data" / "incidents" / "dev"
 
 
 def test_all_dev_incidents_have_required_fields():

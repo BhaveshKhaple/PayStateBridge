@@ -89,12 +89,7 @@ def classify(
 
     # --- Classification rules (gateway evidence wins) ---
 
-    if not gateway_events:
-        # No merchant-side evidence
-        reason_codes.append("NO_GATEWAY_EVENT")
-        state = PaymentState.OUTCOME_UNKNOWN
-
-    elif scenario_hint == "WRONG_RECIPIENT" or (
+    if scenario_hint == "WRONG_RECIPIENT" or (
         customer_report and "wrong" in customer_report.message.lower()
         and not any(s in ("captured", "failed") for s in statuses)
     ):
@@ -104,6 +99,11 @@ def classify(
     elif scenario_hint == "UNAUTHORIZED":
         reason_codes.append("UNAUTHORIZED_CLAIM")
         state = PaymentState.UNAUTHORIZED
+
+    elif not gateway_events:
+        # No merchant-side evidence
+        reason_codes.append("NO_GATEWAY_EVENT")
+        state = PaymentState.OUTCOME_UNKNOWN
 
     elif len([s for s in statuses if s == "captured"]) >= 2:
         # Two captured events for one order -> duplicate
