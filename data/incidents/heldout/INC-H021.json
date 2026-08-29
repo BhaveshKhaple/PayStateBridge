@@ -1,0 +1,37 @@
+{
+  "incident_id": "INC-H021",
+  "split": "heldout",
+  "scenario": "PENDING",
+  "description": "Mobile app payment of ₹399 stuck in pending. Gateway awaiting bank response.",
+  "merchant_order": {
+    "order_id": "ORD-H021",
+    "reference": "ORD-H021",
+    "amount_paise": 39900,
+    "status": "payment_pending",
+    "created_at": "2026-08-30T18:00:00Z"
+  },
+  "gateway_events": [
+    {
+      "provider": "synthetic",
+      "provider_payment_id": "SYN-PAY-H021",
+      "provider_order_id": "ORD-H021",
+      "amount_paise": 39900,
+      "status": "pending",
+      "occurred_at": "2026-08-30T18:01:00Z",
+      "raw_event_id": "SYN-EVT-H021",
+      "source": "gateway_event"
+    }
+  ],
+  "customer_report": {
+    "message": "I made a payment of ₹399 on your mobile app. It has been pending for a while. No confirmation yet.",
+    "amount_paise": 39900,
+    "reported_status": "pending",
+    "utr_like_reference": null,
+    "occurred_at": "2026-08-30T18:15:00Z",
+    "source": "customer_report"
+  },
+  "expected_state": "PENDING",
+  "expected_action": "DO_NOT_RETRY",
+  "simulated_gmv_paise": 0,
+  "notes": "Gateway awaiting bank response. Payment still pending. Do not retry — may double-charge."
+}

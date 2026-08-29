@@ -1,0 +1,37 @@
+{
+  "incident_id": "INC-H022",
+  "split": "heldout",
+  "scenario": "CAPTURED_UNLINKED",
+  "description": "Payment of ₹1999 captured by gateway but message queue failure prevented order update.",
+  "merchant_order": {
+    "order_id": "ORD-H022",
+    "reference": "ORD-H022",
+    "amount_paise": 199900,
+    "status": "payment_pending",
+    "created_at": "2026-08-30T18:30:00Z"
+  },
+  "gateway_events": [
+    {
+      "provider": "synthetic",
+      "provider_payment_id": "SYN-PAY-H022",
+      "provider_order_id": "ORD-H022",
+      "amount_paise": 199900,
+      "status": "captured",
+      "occurred_at": "2026-08-30T18:31:00Z",
+      "raw_event_id": "SYN-EVT-H022",
+      "source": "gateway_event"
+    }
+  ],
+  "customer_report": {
+    "message": "My bank shows ₹1999 was taken but my order still shows payment pending. Please resolve.",
+    "amount_paise": 199900,
+    "reported_status": "success",
+    "utr_like_reference": "SYN-UTR-H022",
+    "occurred_at": "2026-08-30T18:35:00Z",
+    "source": "customer_report"
+  },
+  "expected_state": "CAPTURED_UNLINKED",
+  "expected_action": "RECONCILE_ORDER",
+  "simulated_gmv_paise": 199900,
+  "notes": "Message queue failure prevented order update. Gateway confirms capture. Reconcile order."
+}

@@ -1,0 +1,37 @@
+{
+  "incident_id": "INC-H004",
+  "split": "heldout",
+  "scenario": "FAILED",
+  "description": "Customer claims payment succeeded but gateway shows final failed. ₹499 in dispute.",
+  "merchant_order": {
+    "order_id": "ORD-H004",
+    "reference": "ORD-H004",
+    "amount_paise": 49900,
+    "status": "payment_pending",
+    "created_at": "2026-08-30T09:30:00Z"
+  },
+  "gateway_events": [
+    {
+      "provider": "synthetic",
+      "provider_payment_id": "SYN-PAY-H004",
+      "provider_order_id": "ORD-H004",
+      "amount_paise": 49900,
+      "status": "failed",
+      "occurred_at": "2026-08-30T09:31:45Z",
+      "raw_event_id": "SYN-EVT-H004",
+      "source": "gateway_event"
+    }
+  ],
+  "customer_report": {
+    "message": "I paid ₹499 and my UPI app says success but your site says failed. What happened to my money?",
+    "amount_paise": 49900,
+    "reported_status": "success",
+    "utr_like_reference": "SYN-UTR-H004",
+    "occurred_at": "2026-08-30T09:35:00Z",
+    "source": "customer_report"
+  },
+  "expected_state": "FAILED",
+  "expected_action": "CREATE_RECOVERY_PERMIT",
+  "simulated_gmv_paise": 49900,
+  "notes": "Gateway is authoritative — final failed status. UPI success screen may be a display lag. No money captured. Issue one recovery permit."
+}

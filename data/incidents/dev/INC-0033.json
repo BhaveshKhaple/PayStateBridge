@@ -1,0 +1,26 @@
+{
+  "incident_id": "INC-0033",
+  "split": "dev",
+  "scenario": "WRONG_RECIPIENT",
+  "description": "Customer accidentally sent payment to the merchant's old VPA which is no longer active.",
+  "merchant_order": {
+    "order_id": "ORD-1074",
+    "reference": "ORD-1074",
+    "amount_paise": 49900,
+    "status": "payment_pending",
+    "created_at": "2026-08-30T14:00:00Z"
+  },
+  "gateway_events": [],
+  "customer_report": {
+    "message": "I paid ₹499 to an old UPI ID I had saved for this merchant. The money has gone but the order is not confirmed.",
+    "amount_paise": 49900,
+    "reported_status": "success",
+    "utr_like_reference": "SYN-UTR-20260830-033",
+    "occurred_at": "2026-08-30T14:05:00Z",
+    "source": "customer_report"
+  },
+  "expected_state": "WRONG_RECIPIENT",
+  "expected_action": "OFFICIAL_ROUTE_GUIDANCE",
+  "simulated_gmv_paise": 0,
+  "notes": "scenario_hint: WRONG_RECIPIENT. Payment went to merchant's old inactive VPA. Merchant cannot recover. Guide customer through official bank dispute route."
+}

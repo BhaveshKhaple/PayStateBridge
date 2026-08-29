@@ -1,0 +1,26 @@
+{
+  "incident_id": "INC-H019",
+  "split": "heldout",
+  "scenario": "WRONG_RECIPIENT",
+  "description": "Customer mistyped VPA — sent ₹499 to an unrelated individual instead of the merchant.",
+  "merchant_order": {
+    "order_id": "ORD-H019",
+    "reference": "ORD-H019",
+    "amount_paise": 49900,
+    "status": "payment_pending",
+    "created_at": "2026-08-30T17:00:00Z"
+  },
+  "gateway_events": [],
+  "customer_report": {
+    "message": "I made a typo while entering the UPI ID. ₹499 was sent to the wrong person and now I cannot reach them.",
+    "amount_paise": 49900,
+    "reported_status": "success",
+    "utr_like_reference": "SYN-UTR-H019",
+    "occurred_at": "2026-08-30T17:05:00Z",
+    "source": "customer_report"
+  },
+  "expected_state": "WRONG_RECIPIENT",
+  "expected_action": "OFFICIAL_ROUTE_GUIDANCE",
+  "simulated_gmv_paise": 0,
+  "notes": "scenario_hint: WRONG_RECIPIENT. Typo in VPA sent payment to wrong person. Merchant cannot recover. Official NPCI/bank route guidance needed."
+}

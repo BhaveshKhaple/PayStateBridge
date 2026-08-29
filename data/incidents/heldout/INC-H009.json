@@ -1,0 +1,26 @@
+{
+  "incident_id": "INC-H009",
+  "split": "heldout",
+  "scenario": "OUTCOME_UNKNOWN",
+  "description": "No gateway events received. Customer claims ₹899 was paid but no evidence exists.",
+  "merchant_order": {
+    "order_id": "ORD-H009",
+    "reference": "ORD-H009",
+    "amount_paise": 89900,
+    "status": "payment_pending",
+    "created_at": "2026-08-30T12:00:00Z"
+  },
+  "gateway_events": [],
+  "customer_report": {
+    "message": "I paid ₹899. My phone showed payment done but there is no update on the order page.",
+    "amount_paise": 89900,
+    "reported_status": "success",
+    "utr_like_reference": "SYN-UTR-H009",
+    "occurred_at": "2026-08-30T12:05:00Z",
+    "source": "customer_report"
+  },
+  "expected_state": "OUTCOME_UNKNOWN",
+  "expected_action": "BUILD_EVIDENCE_PACKET",
+  "simulated_gmv_paise": 0,
+  "notes": "No gateway event at all. Cannot verify. Build evidence packet for manual investigation."
+}

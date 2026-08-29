@@ -1,0 +1,26 @@
+{
+  "incident_id": "INC-H024",
+  "split": "heldout",
+  "scenario": "OUTCOME_UNKNOWN",
+  "description": "Gateway event completely absent for ₹1499 payment. Customer shows UPI success screenshot.",
+  "merchant_order": {
+    "order_id": "ORD-H024",
+    "reference": "ORD-H024",
+    "amount_paise": 149900,
+    "status": "payment_pending",
+    "created_at": "2026-08-30T19:30:00Z"
+  },
+  "gateway_events": [],
+  "customer_report": {
+    "message": "I can show you the UPI success screenshot. ₹1499 was paid. But your gateway seems to have no record of it.",
+    "amount_paise": 149900,
+    "reported_status": "success",
+    "utr_like_reference": "SYN-UTR-H024",
+    "occurred_at": "2026-08-30T19:35:00Z",
+    "source": "customer_report"
+  },
+  "expected_state": "OUTCOME_UNKNOWN",
+  "expected_action": "BUILD_EVIDENCE_PACKET",
+  "simulated_gmv_paise": 0,
+  "notes": "No gateway event. Customer has screenshot evidence. Build evidence packet including screenshot for manual verification."
+}

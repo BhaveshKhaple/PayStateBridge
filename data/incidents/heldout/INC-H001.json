@@ -1,0 +1,37 @@
+{
+  "incident_id": "INC-H001",
+  "split": "heldout",
+  "scenario": "PENDING",
+  "description": "Customer paid via UPI. Gateway shows pending. No order confirmation received.",
+  "merchant_order": {
+    "order_id": "ORD-H001",
+    "reference": "ORD-H001",
+    "amount_paise": 99900,
+    "status": "payment_pending",
+    "created_at": "2026-08-30T08:00:00Z"
+  },
+  "gateway_events": [
+    {
+      "provider": "synthetic",
+      "provider_payment_id": "SYN-PAY-H001",
+      "provider_order_id": "ORD-H001",
+      "amount_paise": 99900,
+      "status": "pending",
+      "occurred_at": "2026-08-30T08:01:00Z",
+      "raw_event_id": "SYN-EVT-H001",
+      "source": "gateway_event"
+    }
+  ],
+  "customer_report": {
+    "message": "I paid ₹999 via UPI. My bank shows the payment but I received no order confirmation.",
+    "amount_paise": 99900,
+    "reported_status": "success",
+    "utr_like_reference": "SYN-UTR-H001",
+    "occurred_at": "2026-08-30T08:02:00Z",
+    "source": "customer_report"
+  },
+  "expected_state": "PENDING",
+  "expected_action": "DO_NOT_RETRY",
+  "simulated_gmv_paise": 0,
+  "notes": "Gateway pending. Customer claim untrusted. Do not retry or issue recovery link."
+}

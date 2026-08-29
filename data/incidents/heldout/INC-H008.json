@@ -1,0 +1,47 @@
+{
+  "incident_id": "INC-H008",
+  "split": "heldout",
+  "scenario": "DUPLICATE_SUCCESS",
+  "description": "Browser auto-submitted the payment form twice. Two captures of ₹599 each at gateway.",
+  "merchant_order": {
+    "order_id": "ORD-H008",
+    "reference": "ORD-H008",
+    "amount_paise": 59900,
+    "status": "payment_pending",
+    "created_at": "2026-08-30T11:30:00Z"
+  },
+  "gateway_events": [
+    {
+      "provider": "synthetic",
+      "provider_payment_id": "SYN-PAY-A-H008",
+      "provider_order_id": "ORD-H008",
+      "amount_paise": 59900,
+      "status": "captured",
+      "occurred_at": "2026-08-30T11:31:00Z",
+      "raw_event_id": "SYN-EVT-H008A",
+      "source": "gateway_event"
+    },
+    {
+      "provider": "synthetic",
+      "provider_payment_id": "SYN-PAY-B-H008",
+      "provider_order_id": "ORD-H008",
+      "amount_paise": 59900,
+      "status": "captured",
+      "occurred_at": "2026-08-30T11:31:12Z",
+      "raw_event_id": "SYN-EVT-H008B",
+      "source": "gateway_event"
+    }
+  ],
+  "customer_report": {
+    "message": "I see two charges of ₹599 on my bank statement. I only intended one payment.",
+    "amount_paise": 59900,
+    "reported_status": "success",
+    "utr_like_reference": "SYN-UTR-H008",
+    "occurred_at": "2026-08-30T11:35:00Z",
+    "source": "customer_report"
+  },
+  "expected_state": "DUPLICATE_SUCCESS",
+  "expected_action": "OPEN_DUPLICATE_REVIEW",
+  "simulated_gmv_paise": 0,
+  "notes": "Browser auto-submit caused two captures. Open duplicate review to identify and refund duplicate."
+}

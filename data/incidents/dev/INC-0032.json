@@ -1,0 +1,47 @@
+{
+  "incident_id": "INC-0032",
+  "split": "dev",
+  "scenario": "DUPLICATE_SUCCESS",
+  "description": "Customer's bank auto-retried the payment after a timeout. Two separate captures recorded.",
+  "merchant_order": {
+    "order_id": "ORD-1073",
+    "reference": "ORD-1073",
+    "amount_paise": 299900,
+    "status": "payment_pending",
+    "created_at": "2026-08-30T13:30:00Z"
+  },
+  "gateway_events": [
+    {
+      "provider": "synthetic",
+      "provider_payment_id": "SYN-PAY-A-0032",
+      "provider_order_id": "ORD-1073",
+      "amount_paise": 299900,
+      "status": "captured",
+      "occurred_at": "2026-08-30T13:31:00Z",
+      "raw_event_id": "SYN-EVT-20260830-032A",
+      "source": "gateway_event"
+    },
+    {
+      "provider": "synthetic",
+      "provider_payment_id": "SYN-PAY-B-0032",
+      "provider_order_id": "ORD-1073",
+      "amount_paise": 299900,
+      "status": "captured",
+      "occurred_at": "2026-08-30T13:31:45Z",
+      "raw_event_id": "SYN-EVT-20260830-032B",
+      "source": "gateway_event"
+    }
+  ],
+  "customer_report": {
+    "message": "My bank statement shows two debits of ₹2999 each. I only placed one order. Please refund the duplicate.",
+    "amount_paise": 299900,
+    "reported_status": "success",
+    "utr_like_reference": "SYN-UTR-20260830-032",
+    "occurred_at": "2026-08-30T13:40:00Z",
+    "source": "customer_report"
+  },
+  "expected_state": "DUPLICATE_SUCCESS",
+  "expected_action": "OPEN_DUPLICATE_REVIEW",
+  "simulated_gmv_paise": 0,
+  "notes": "Bank auto-retry caused two captures. Open duplicate review to identify and refund the duplicate charge."
+}

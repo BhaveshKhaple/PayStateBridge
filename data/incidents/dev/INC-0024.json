@@ -1,0 +1,47 @@
+{
+  "incident_id": "INC-0024",
+  "split": "dev",
+  "scenario": "DUPLICATE_SUCCESS",
+  "description": "Customer double-tapped the pay button. Two separate captured events received from gateway.",
+  "merchant_order": {
+    "order_id": "ORD-1065",
+    "reference": "ORD-1065",
+    "amount_paise": 59900,
+    "status": "payment_pending",
+    "created_at": "2026-08-30T09:30:00Z"
+  },
+  "gateway_events": [
+    {
+      "provider": "synthetic",
+      "provider_payment_id": "SYN-PAY-A-0024",
+      "provider_order_id": "ORD-1065",
+      "amount_paise": 59900,
+      "status": "captured",
+      "occurred_at": "2026-08-30T09:31:00Z",
+      "raw_event_id": "SYN-EVT-20260830-024A",
+      "source": "gateway_event"
+    },
+    {
+      "provider": "synthetic",
+      "provider_payment_id": "SYN-PAY-B-0024",
+      "provider_order_id": "ORD-1065",
+      "amount_paise": 59900,
+      "status": "captured",
+      "occurred_at": "2026-08-30T09:31:05Z",
+      "raw_event_id": "SYN-EVT-20260830-024B",
+      "source": "gateway_event"
+    }
+  ],
+  "customer_report": {
+    "message": "I was charged ₹599 twice! I only tapped once but the page was slow and I may have tapped again.",
+    "amount_paise": 59900,
+    "reported_status": "success",
+    "utr_like_reference": "SYN-UTR-20260830-024",
+    "occurred_at": "2026-08-30T09:35:00Z",
+    "source": "customer_report"
+  },
+  "expected_state": "DUPLICATE_SUCCESS",
+  "expected_action": "OPEN_DUPLICATE_REVIEW",
+  "simulated_gmv_paise": 0,
+  "notes": "Double-tap caused two captures. Open duplicate review to determine which payment to refund."
+}

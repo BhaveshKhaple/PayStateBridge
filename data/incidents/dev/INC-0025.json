@@ -1,0 +1,26 @@
+{
+  "incident_id": "INC-0025",
+  "split": "dev",
+  "scenario": "OUTCOME_UNKNOWN",
+  "description": "Gateway event is missing entirely. Customer claims payment succeeded but no evidence exists.",
+  "merchant_order": {
+    "order_id": "ORD-1066",
+    "reference": "ORD-1066",
+    "amount_paise": 79900,
+    "status": "payment_pending",
+    "created_at": "2026-08-30T10:00:00Z"
+  },
+  "gateway_events": [],
+  "customer_report": {
+    "message": "I paid ₹799 and got a success screen on my UPI app. Your site shows nothing.",
+    "amount_paise": 79900,
+    "reported_status": "success",
+    "utr_like_reference": "SYN-UTR-20260830-025",
+    "occurred_at": "2026-08-30T10:05:00Z",
+    "source": "customer_report"
+  },
+  "expected_state": "OUTCOME_UNKNOWN",
+  "expected_action": "BUILD_EVIDENCE_PACKET",
+  "simulated_gmv_paise": 0,
+  "notes": "No gateway event present at all. Customer claim of success cannot be verified. Build evidence packet for manual investigation."
+}

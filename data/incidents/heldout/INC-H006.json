@@ -1,0 +1,37 @@
+{
+  "incident_id": "INC-H006",
+  "split": "heldout",
+  "scenario": "CAPTURED_UNLINKED",
+  "description": "Webhook processing queue backed up. ₹799 captured at gateway but order not updated.",
+  "merchant_order": {
+    "order_id": "ORD-H006",
+    "reference": "ORD-H006",
+    "amount_paise": 79900,
+    "status": "payment_pending",
+    "created_at": "2026-08-30T10:30:00Z"
+  },
+  "gateway_events": [
+    {
+      "provider": "synthetic",
+      "provider_payment_id": "SYN-PAY-H006",
+      "provider_order_id": "ORD-H006",
+      "amount_paise": 79900,
+      "status": "captured",
+      "occurred_at": "2026-08-30T10:31:00Z",
+      "raw_event_id": "SYN-EVT-H006",
+      "source": "gateway_event"
+    }
+  ],
+  "customer_report": {
+    "message": "Payment of ₹799 went through. My banking app confirms it. But my order is still pending on your website.",
+    "amount_paise": 79900,
+    "reported_status": "success",
+    "utr_like_reference": "SYN-UTR-H006",
+    "occurred_at": "2026-08-30T10:35:00Z",
+    "source": "customer_report"
+  },
+  "expected_state": "CAPTURED_UNLINKED",
+  "expected_action": "RECONCILE_ORDER",
+  "simulated_gmv_paise": 79900,
+  "notes": "Webhook queue backlog caused delayed processing. Gateway confirms capture. Reconcile the order."
+}

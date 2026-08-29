@@ -1,0 +1,47 @@
+{
+  "incident_id": "INC-H018",
+  "split": "heldout",
+  "scenario": "DUPLICATE_SUCCESS",
+  "description": "Network retry caused bank to resubmit payment. Two captures of ₹2999 each recorded.",
+  "merchant_order": {
+    "order_id": "ORD-H018",
+    "reference": "ORD-H018",
+    "amount_paise": 299900,
+    "status": "payment_pending",
+    "created_at": "2026-08-30T16:30:00Z"
+  },
+  "gateway_events": [
+    {
+      "provider": "synthetic",
+      "provider_payment_id": "SYN-PAY-A-H018",
+      "provider_order_id": "ORD-H018",
+      "amount_paise": 299900,
+      "status": "captured",
+      "occurred_at": "2026-08-30T16:31:00Z",
+      "raw_event_id": "SYN-EVT-H018A",
+      "source": "gateway_event"
+    },
+    {
+      "provider": "synthetic",
+      "provider_payment_id": "SYN-PAY-B-H018",
+      "provider_order_id": "ORD-H018",
+      "amount_paise": 299900,
+      "status": "captured",
+      "occurred_at": "2026-08-30T16:31:50Z",
+      "raw_event_id": "SYN-EVT-H018B",
+      "source": "gateway_event"
+    }
+  ],
+  "customer_report": {
+    "message": "Two charges of ₹2999 appeared on my account. I only authorized one payment.",
+    "amount_paise": 299900,
+    "reported_status": "success",
+    "utr_like_reference": "SYN-UTR-H018",
+    "occurred_at": "2026-08-30T16:35:00Z",
+    "source": "customer_report"
+  },
+  "expected_state": "DUPLICATE_SUCCESS",
+  "expected_action": "OPEN_DUPLICATE_REVIEW",
+  "simulated_gmv_paise": 0,
+  "notes": "Network retry caused bank to resubmit causing two captures. Open duplicate review."
+}

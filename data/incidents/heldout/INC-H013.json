@@ -1,0 +1,26 @@
+{
+  "incident_id": "INC-H013",
+  "split": "heldout",
+  "scenario": "UNAUTHORIZED",
+  "description": "Fraudster used customer's saved card without consent. ₹4999 unauthorized transaction disputed.",
+  "merchant_order": {
+    "order_id": "ORD-H013",
+    "reference": "ORD-H013",
+    "amount_paise": 499900,
+    "status": "payment_pending",
+    "created_at": "2026-08-30T14:00:00Z"
+  },
+  "gateway_events": [],
+  "customer_report": {
+    "message": "Someone used my saved card on your site without my permission. ₹4999 was charged. I did not authorize this payment.",
+    "amount_paise": 499900,
+    "reported_status": "success",
+    "utr_like_reference": "SYN-UTR-H013",
+    "occurred_at": "2026-08-30T14:10:00Z",
+    "source": "customer_report"
+  },
+  "expected_state": "UNAUTHORIZED",
+  "expected_action": "SECURITY_ESCALATION",
+  "simulated_gmv_paise": 0,
+  "notes": "scenario_hint: UNAUTHORIZED. Unauthorized card use. Escalate to security team immediately. Do not create recovery permit."
+}

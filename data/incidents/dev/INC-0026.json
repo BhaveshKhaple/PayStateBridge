@@ -1,0 +1,26 @@
+{
+  "incident_id": "INC-0026",
+  "split": "dev",
+  "scenario": "WRONG_RECIPIENT",
+  "description": "Customer entered the wrong VPA (UPI ID) and payment went to an unintended recipient.",
+  "merchant_order": {
+    "order_id": "ORD-1067",
+    "reference": "ORD-1067",
+    "amount_paise": 249900,
+    "status": "payment_pending",
+    "created_at": "2026-08-30T10:30:00Z"
+  },
+  "gateway_events": [],
+  "customer_report": {
+    "message": "I think I typed the wrong UPI ID. ₹2499 went somewhere but not to your merchant. Can you help?",
+    "amount_paise": 249900,
+    "reported_status": "success",
+    "utr_like_reference": "SYN-UTR-20260830-026",
+    "occurred_at": "2026-08-30T10:35:00Z",
+    "source": "customer_report"
+  },
+  "expected_state": "WRONG_RECIPIENT",
+  "expected_action": "OFFICIAL_ROUTE_GUIDANCE",
+  "simulated_gmv_paise": 0,
+  "notes": "scenario_hint: WRONG_RECIPIENT. Customer error — wrong VPA entered. Merchant cannot recover funds. Provide official NPCI/bank dispute route guidance."
+}

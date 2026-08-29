@@ -1,0 +1,37 @@
+{
+  "incident_id": "INC-H016",
+  "split": "heldout",
+  "scenario": "CAPTURED_UNLINKED",
+  "description": "Race condition in order fulfillment system. ₹5499 captured but order linkage failed.",
+  "merchant_order": {
+    "order_id": "ORD-H016",
+    "reference": "ORD-H016",
+    "amount_paise": 549900,
+    "status": "payment_pending",
+    "created_at": "2026-08-30T15:30:00Z"
+  },
+  "gateway_events": [
+    {
+      "provider": "synthetic",
+      "provider_payment_id": "SYN-PAY-H016",
+      "provider_order_id": "ORD-H016",
+      "amount_paise": 549900,
+      "status": "captured",
+      "occurred_at": "2026-08-30T15:31:00Z",
+      "raw_event_id": "SYN-EVT-H016",
+      "source": "gateway_event"
+    }
+  ],
+  "customer_report": {
+    "message": "Paid ₹5499. The payment was taken but my order page still shows payment pending. I am worried.",
+    "amount_paise": 549900,
+    "reported_status": "success",
+    "utr_like_reference": "SYN-UTR-H016",
+    "occurred_at": "2026-08-30T15:35:00Z",
+    "source": "customer_report"
+  },
+  "expected_state": "CAPTURED_UNLINKED",
+  "expected_action": "RECONCILE_ORDER",
+  "simulated_gmv_paise": 549900,
+  "notes": "Race condition caused order linkage failure. Gateway captured. Reconcile order without re-charging."
+}

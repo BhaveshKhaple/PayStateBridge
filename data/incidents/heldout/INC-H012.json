@@ -1,0 +1,26 @@
+{
+  "incident_id": "INC-H012",
+  "split": "heldout",
+  "scenario": "WRONG_RECIPIENT",
+  "description": "Customer used an auto-filled old VPA from browser history. ₹999 went to wrong recipient.",
+  "merchant_order": {
+    "order_id": "ORD-H012",
+    "reference": "ORD-H012",
+    "amount_paise": 99900,
+    "status": "payment_pending",
+    "created_at": "2026-08-30T13:30:00Z"
+  },
+  "gateway_events": [],
+  "customer_report": {
+    "message": "My browser auto-filled an old UPI ID. ₹999 was sent to the wrong person. How do I recover this?",
+    "amount_paise": 99900,
+    "reported_status": "success",
+    "utr_like_reference": "SYN-UTR-H012",
+    "occurred_at": "2026-08-30T13:35:00Z",
+    "source": "customer_report"
+  },
+  "expected_state": "WRONG_RECIPIENT",
+  "expected_action": "OFFICIAL_ROUTE_GUIDANCE",
+  "simulated_gmv_paise": 0,
+  "notes": "scenario_hint: WRONG_RECIPIENT. Browser auto-fill caused wrong VPA. Merchant cannot intervene. Official route guidance required."
+}

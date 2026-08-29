@@ -1,0 +1,37 @@
+{
+  "incident_id": "INC-H005",
+  "split": "heldout",
+  "scenario": "CAPTURED_UNLINKED",
+  "description": "Gateway captured ₹3999 but order remains unlinked due to server-side processing failure.",
+  "merchant_order": {
+    "order_id": "ORD-H005",
+    "reference": "ORD-H005",
+    "amount_paise": 399900,
+    "status": "payment_pending",
+    "created_at": "2026-08-30T10:00:00Z"
+  },
+  "gateway_events": [
+    {
+      "provider": "synthetic",
+      "provider_payment_id": "SYN-PAY-H005",
+      "provider_order_id": "ORD-H005",
+      "amount_paise": 399900,
+      "status": "captured",
+      "occurred_at": "2026-08-30T10:01:00Z",
+      "raw_event_id": "SYN-EVT-H005",
+      "source": "gateway_event"
+    }
+  ],
+  "customer_report": {
+    "message": "₹3999 has been deducted. The merchant site crashed during checkout. Order is showing as pending.",
+    "amount_paise": 399900,
+    "reported_status": "success",
+    "utr_like_reference": "SYN-UTR-H005",
+    "occurred_at": "2026-08-30T10:05:00Z",
+    "source": "customer_report"
+  },
+  "expected_state": "CAPTURED_UNLINKED",
+  "expected_action": "RECONCILE_ORDER",
+  "simulated_gmv_paise": 399900,
+  "notes": "Gateway confirms capture. Server crash prevented order linkage. Reconcile order without re-charging."
+}

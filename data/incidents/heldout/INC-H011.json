@@ -1,0 +1,26 @@
+{
+  "incident_id": "INC-H011",
+  "split": "heldout",
+  "scenario": "WRONG_RECIPIENT",
+  "description": "Customer paid ₹3499 to an incorrect UPI VPA. Funds did not reach the merchant.",
+  "merchant_order": {
+    "order_id": "ORD-H011",
+    "reference": "ORD-H011",
+    "amount_paise": 349900,
+    "status": "payment_pending",
+    "created_at": "2026-08-30T13:00:00Z"
+  },
+  "gateway_events": [],
+  "customer_report": {
+    "message": "I sent ₹3499 to the wrong UPI ID. The money has gone through but the order was not placed. Please help me get it back.",
+    "amount_paise": 349900,
+    "reported_status": "success",
+    "utr_like_reference": "SYN-UTR-H011",
+    "occurred_at": "2026-08-30T13:05:00Z",
+    "source": "customer_report"
+  },
+  "expected_state": "WRONG_RECIPIENT",
+  "expected_action": "OFFICIAL_ROUTE_GUIDANCE",
+  "simulated_gmv_paise": 0,
+  "notes": "scenario_hint: WRONG_RECIPIENT. Customer error — wrong VPA. Merchant cannot recover. Provide official NPCI/bank dispute route guidance."
+}

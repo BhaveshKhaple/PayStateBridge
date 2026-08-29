@@ -1,0 +1,26 @@
+{
+  "incident_id": "INC-H002",
+  "split": "heldout",
+  "scenario": "OUTCOME_UNKNOWN",
+  "description": "No gateway event received at all. Customer claims successful payment of ₹1499.",
+  "merchant_order": {
+    "order_id": "ORD-H002",
+    "reference": "ORD-H002",
+    "amount_paise": 149900,
+    "status": "payment_pending",
+    "created_at": "2026-08-30T08:30:00Z"
+  },
+  "gateway_events": [],
+  "customer_report": {
+    "message": "I paid ₹1499 and got a green tick on my payment app but your site shows nothing happened.",
+    "amount_paise": 149900,
+    "reported_status": "success",
+    "utr_like_reference": "SYN-UTR-H002",
+    "occurred_at": "2026-08-30T08:35:00Z",
+    "source": "customer_report"
+  },
+  "expected_state": "OUTCOME_UNKNOWN",
+  "expected_action": "BUILD_EVIDENCE_PACKET",
+  "simulated_gmv_paise": 0,
+  "notes": "No gateway event. Cannot verify customer claim. Build evidence packet for manual investigation."
+}

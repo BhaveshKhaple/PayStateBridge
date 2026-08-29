@@ -1,0 +1,47 @@
+{
+  "incident_id": "INC-H017",
+  "split": "heldout",
+  "scenario": "OUTCOME_UNKNOWN",
+  "description": "Conflicting gateway signals for ₹1299 payment. One event shows captured, one shows failed.",
+  "merchant_order": {
+    "order_id": "ORD-H017",
+    "reference": "ORD-H017",
+    "amount_paise": 129900,
+    "status": "payment_pending",
+    "created_at": "2026-08-30T16:00:00Z"
+  },
+  "gateway_events": [
+    {
+      "provider": "synthetic",
+      "provider_payment_id": "SYN-PAY-H017A",
+      "provider_order_id": "ORD-H017",
+      "amount_paise": 129900,
+      "status": "captured",
+      "occurred_at": "2026-08-30T16:01:00Z",
+      "raw_event_id": "SYN-EVT-H017A",
+      "source": "gateway_event"
+    },
+    {
+      "provider": "synthetic",
+      "provider_payment_id": "SYN-PAY-H017B",
+      "provider_order_id": "ORD-H017",
+      "amount_paise": 129900,
+      "status": "failed",
+      "occurred_at": "2026-08-30T16:01:45Z",
+      "raw_event_id": "SYN-EVT-H017B",
+      "source": "gateway_event"
+    }
+  ],
+  "customer_report": {
+    "message": "I got a success notification from my bank but the order shows payment failed. ₹1299 in question.",
+    "amount_paise": 129900,
+    "reported_status": "unknown",
+    "utr_like_reference": null,
+    "occurred_at": "2026-08-30T16:10:00Z",
+    "source": "customer_report"
+  },
+  "expected_state": "OUTCOME_UNKNOWN",
+  "expected_action": "BUILD_EVIDENCE_PACKET",
+  "simulated_gmv_paise": 0,
+  "notes": "CONFLICTING_GATEWAY_EVENTS: captured + failed. Cannot auto-resolve. Build evidence packet for manual review."
+}

@@ -1,0 +1,47 @@
+{
+  "incident_id": "INC-H007",
+  "split": "heldout",
+  "scenario": "DUPLICATE_SUCCESS",
+  "description": "Customer clicked pay twice on slow network. Two captures of ₹1999 each recorded at gateway.",
+  "merchant_order": {
+    "order_id": "ORD-H007",
+    "reference": "ORD-H007",
+    "amount_paise": 199900,
+    "status": "payment_pending",
+    "created_at": "2026-08-30T11:00:00Z"
+  },
+  "gateway_events": [
+    {
+      "provider": "synthetic",
+      "provider_payment_id": "SYN-PAY-A-H007",
+      "provider_order_id": "ORD-H007",
+      "amount_paise": 199900,
+      "status": "captured",
+      "occurred_at": "2026-08-30T11:01:00Z",
+      "raw_event_id": "SYN-EVT-H007A",
+      "source": "gateway_event"
+    },
+    {
+      "provider": "synthetic",
+      "provider_payment_id": "SYN-PAY-B-H007",
+      "provider_order_id": "ORD-H007",
+      "amount_paise": 199900,
+      "status": "captured",
+      "occurred_at": "2026-08-30T11:01:08Z",
+      "raw_event_id": "SYN-EVT-H007B",
+      "source": "gateway_event"
+    }
+  ],
+  "customer_report": {
+    "message": "I was charged ₹1999 twice. The page was slow and I clicked the button twice by mistake.",
+    "amount_paise": 199900,
+    "reported_status": "success",
+    "utr_like_reference": "SYN-UTR-H007",
+    "occurred_at": "2026-08-30T11:05:00Z",
+    "source": "customer_report"
+  },
+  "expected_state": "DUPLICATE_SUCCESS",
+  "expected_action": "OPEN_DUPLICATE_REVIEW",
+  "simulated_gmv_paise": 0,
+  "notes": "Double-click on slow network caused two captures. Open duplicate review."
+}

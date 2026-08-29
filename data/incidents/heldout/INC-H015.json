@@ -1,0 +1,37 @@
+{
+  "incident_id": "INC-H015",
+  "split": "heldout",
+  "scenario": "FAILED",
+  "description": "High-value payment of ₹7999 failed at gateway due to transaction limit exceeded.",
+  "merchant_order": {
+    "order_id": "ORD-H015",
+    "reference": "ORD-H015",
+    "amount_paise": 799900,
+    "status": "payment_pending",
+    "created_at": "2026-08-30T15:00:00Z"
+  },
+  "gateway_events": [
+    {
+      "provider": "synthetic",
+      "provider_payment_id": "SYN-PAY-H015",
+      "provider_order_id": "ORD-H015",
+      "amount_paise": 799900,
+      "status": "failed",
+      "occurred_at": "2026-08-30T15:01:20Z",
+      "raw_event_id": "SYN-EVT-H015",
+      "source": "gateway_event"
+    }
+  ],
+  "customer_report": {
+    "message": "My payment of ₹7999 was declined due to daily limit. I want to retry after increasing my limit.",
+    "amount_paise": 799900,
+    "reported_status": "failed",
+    "utr_like_reference": null,
+    "occurred_at": "2026-08-30T15:05:00Z",
+    "source": "customer_report"
+  },
+  "expected_state": "FAILED",
+  "expected_action": "CREATE_RECOVERY_PERMIT",
+  "simulated_gmv_paise": 799900,
+  "notes": "Transaction limit exceeded — gateway final failed. No money moved. Customer aligns. Issue one recovery permit."
+}

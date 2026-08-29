@@ -1,0 +1,37 @@
+{
+  "incident_id": "INC-H003",
+  "split": "heldout",
+  "scenario": "FAILED",
+  "description": "Payment of ₹2999 failed at gateway. Customer wants to retry with a different card.",
+  "merchant_order": {
+    "order_id": "ORD-H003",
+    "reference": "ORD-H003",
+    "amount_paise": 299900,
+    "status": "payment_pending",
+    "created_at": "2026-08-30T09:00:00Z"
+  },
+  "gateway_events": [
+    {
+      "provider": "synthetic",
+      "provider_payment_id": "SYN-PAY-H003",
+      "provider_order_id": "ORD-H003",
+      "amount_paise": 299900,
+      "status": "failed",
+      "occurred_at": "2026-08-30T09:01:30Z",
+      "raw_event_id": "SYN-EVT-H003",
+      "source": "gateway_event"
+    }
+  ],
+  "customer_report": {
+    "message": "The payment of ₹2999 failed. I want to try again with a different card.",
+    "amount_paise": 299900,
+    "reported_status": "failed",
+    "utr_like_reference": null,
+    "occurred_at": "2026-08-30T09:05:00Z",
+    "source": "customer_report"
+  },
+  "expected_state": "FAILED",
+  "expected_action": "CREATE_RECOVERY_PERMIT",
+  "simulated_gmv_paise": 299900,
+  "notes": "Gateway final failed. No money moved. Customer aligns. Issue one recovery permit."
+}
