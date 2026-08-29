@@ -110,13 +110,15 @@ def classify(
         reason_codes.append("MULTIPLE_CAPTURED_EVENTS")
         state = PaymentState.DUPLICATE_SUCCESS
 
-    elif statuses == ["captured"] or (
-        len(statuses) == 1 and statuses[0] == "captured"
-        and order.status in ("payment_pending", "created")
-    ):
-        # Captured but order not linked
-        reason_codes.append("CAPTURED_ORDER_NOT_LINKED")
-        state = PaymentState.CAPTURED_UNLINKED
+    elif len(statuses) == 1 and statuses[0] == "captured":
+        captured_evt = gateway_events[0]
+        if captured_evt.amount_paise != order.amount_paise:
+            reason_codes.append("AMOUNT_MISMATCH")
+            state = PaymentState.OUTCOME_UNKNOWN
+        else:
+            # Captured but order not linked
+            reason_codes.append("CAPTURED_ORDER_NOT_LINKED")
+            state = PaymentState.CAPTURED_UNLINKED
 
     elif all(s == "failed" for s in statuses) and statuses:
         reason_codes.append("GATEWAY_STATUS_FAILED")
@@ -140,7 +142,10 @@ def classify(
         state = PaymentState.OUTCOME_UNKNOWN
 
     evidence_ids.append(order.order_id)
-    action = _STATE_TO_ACTION[state]
+    if state == PaymentState.OUTCOME_UNKNOWN and not gateway_events:
+        action = RecoveryAction.DO_NOT_RETRY
+    else:
+        action = _STATE_TO_ACTION[state]
 
     return RecoveryDecision(
         state=state,
