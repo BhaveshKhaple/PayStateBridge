@@ -38,6 +38,12 @@ export default function HomePage() {
             Enter PayState World →
           </Link>
           <Link
+            href="/recover"
+            className="px-6 py-3 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-500 transition-colors shadow-sm"
+          >
+            Check a payment →
+          </Link>
+          <Link
             href="/cases"
             className="px-6 py-3 bg-gray-900 text-white rounded-lg font-medium hover:bg-gray-700 transition-colors"
           >
