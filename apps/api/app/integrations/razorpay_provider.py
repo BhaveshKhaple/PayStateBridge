@@ -11,7 +11,11 @@ import os
 
 import httpx
 
-from app.integrations.payment_provider import ProviderLinkResult, VerifiedWebhookEvent
+from app.integrations.payment_provider import (
+    FetchedPayment,
+    ProviderLinkResult,
+    VerifiedWebhookEvent,
+)
 from app.schemas.payment import RecoveryPermit
 
 RAZORPAY_API_BASE = "https://api.razorpay.com/v1"
@@ -20,6 +24,17 @@ TIMEOUT_SECONDS = 15.0
 
 class RazorpayConfigError(Exception):
     pass
+
+
+def _map_razorpay_status(status: str, captured: bool) -> str:
+    # Razorpay: created, authorized, captured, refunded, failed
+    if status == "captured" or captured:
+        return "captured"
+    if status == "failed":
+        return "failed"
+    if status in ("created", "authorized"):
+        return "pending"   # authorized-but-not-captured is the classic ambiguity
+    return "pending"
 
 
 class RazorpayTestModeProvider:
@@ -102,4 +117,36 @@ class RazorpayTestModeProvider:
             status=pl.get("status", ""),
             amount_paise=pl.get("amount"),
             provider=self.provider,
+        )
+
+    async def fetch_payment(self, payment_id: str) -> FetchedPayment:
+        """Fetch a real payment from Razorpay Test Mode: GET /v1/payments/{id}."""
+        async with httpx.AsyncClient(
+            auth=(self._key_id, self._key_secret), timeout=TIMEOUT_SECONDS
+        ) as client:
+            resp = await client.get(f"{RAZORPAY_API_BASE}/payments/{payment_id}")
+        if resp.status_code == 404:
+            return FetchedPayment(
+                provider=self.provider,
+                found=False,
+                payment_id=payment_id,
+                data_source="razorpay_test",
+                note="Payment not found in Razorpay Test Mode.",
+            )
+        resp.raise_for_status()
+        d = resp.json()
+        # Map Razorpay status → our gateway status vocabulary
+        razorpay_status = d.get("status", "")
+        mapped = _map_razorpay_status(razorpay_status, d.get("captured", False))
+        return FetchedPayment(
+            provider=self.provider,
+            found=True,
+            payment_id=d.get("id", payment_id),
+            order_id=d.get("order_id"),
+            amount_paise=d.get("amount"),
+            status=mapped,
+            method=d.get("method"),
+            created_at=str(d.get("created_at", "")),
+            data_source="razorpay_test",
+            raw_status=razorpay_status,
         )

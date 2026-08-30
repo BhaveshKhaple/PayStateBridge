@@ -36,6 +36,20 @@ class VerifiedWebhookEvent(BaseModel):
     provider: str
 
 
+class FetchedPayment(BaseModel):
+    provider: str
+    found: bool
+    payment_id: str
+    order_id: str | None = None
+    amount_paise: int | None = None
+    status: str | None = None            # razorpay status mapped to: created/authorized/captured/failed/pending
+    method: str | None = None            # upi/card/etc if available
+    created_at: str | None = None
+    data_source: str                     # "razorpay_test" | "synthetic_demo"
+    raw_status: str | None = None        # original razorpay status string
+    note: str = ""
+
+
 @runtime_checkable
 class PaymentProvider(Protocol):
     async def create_recovery_link(
@@ -45,3 +59,5 @@ class PaymentProvider(Protocol):
     def verify_webhook(
         self, raw_body: bytes, signature: str
     ) -> VerifiedWebhookEvent: ...
+
+    async def fetch_payment(self, payment_id: str) -> "FetchedPayment": ...
