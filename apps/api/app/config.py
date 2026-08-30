@@ -24,6 +24,7 @@ class AppConfig:
     razorpay_key_secret: str | None
     razorpay_webhook_secret: str | None
     payment_provider: str
+    allowed_origins: str
 
     def __init__(self) -> None:
         self.app_env = _get("APP_ENV", "demo")
@@ -34,6 +35,11 @@ class AppConfig:
         self.razorpay_key_secret = _get("RAZORPAY_KEY_SECRET") or None
         self.razorpay_webhook_secret = _get("RAZORPAY_WEBHOOK_SECRET") or None
         self.payment_provider = _get("PAYMENT_PROVIDER", "fake")
+        self.allowed_origins = _get("ALLOWED_ORIGINS", "http://localhost:3000")
+
+    @property
+    def cors_origins(self) -> list[str]:
+        return [o.strip() for o in self.allowed_origins.split(",") if o.strip()]
 
     def validate(self) -> None:
         """
