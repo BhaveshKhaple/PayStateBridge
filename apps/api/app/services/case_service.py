@@ -86,7 +86,11 @@ async def get_case(db: AsyncSession, case_id: str) -> PaymentCase:
 async def list_cases(db: AsyncSession, limit: int = 50) -> list[PaymentCase]:
     result = await db.execute(
         select(PaymentCase)
-        .options(selectinload(PaymentCase.order))
+        .options(
+            selectinload(PaymentCase.order),
+            selectinload(PaymentCase.evidence_items),
+            selectinload(PaymentCase.audit_events),
+        )
         .order_by(PaymentCase.created_at.desc())
         .limit(limit)
     )
