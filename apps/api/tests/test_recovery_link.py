@@ -4,6 +4,8 @@ No real Razorpay credentials needed.
 """
 from __future__ import annotations
 
+import uuid
+
 import pytest
 
 from app.db.database import AsyncSessionLocal, init_db
@@ -20,10 +22,12 @@ async def setup_db():
 
 async def create_failed_case() -> str:
     from datetime import datetime, timezone
+    import uuid
     async with AsyncSessionLocal() as db:
+        _oid = f"ORD-LINK-{uuid.uuid4().hex[:12]}"
         order = MerchantOrder(
-            order_id=f"ORD-LINK-{id(object())}",
-            reference=f"ORD-LINK-{id(object())}",
+            order_id=_oid,
+            reference=_oid,
             amount_paise=99900,
             status="payment_pending",
             created_at=datetime(2026, 8, 30, 8, 0, 0, tzinfo=timezone.utc),
@@ -81,8 +85,8 @@ async def test_pending_case_cannot_get_link():
     from datetime import datetime, timezone
     async with AsyncSessionLocal() as db:
         order = MerchantOrder(
-            order_id=f"ORD-PEND-{id(object())}",
-            reference=f"ORD-PEND-{id(object())}",
+            order_id=f"ORD-PEND-{uuid.uuid4().hex[:12]}",
+            reference=f"ORD-PEND-{uuid.uuid4().hex[:12]}",
             amount_paise=99900,
             status="payment_pending",
             created_at=datetime(2026, 8, 30, 8, 0, 0, tzinfo=timezone.utc),
