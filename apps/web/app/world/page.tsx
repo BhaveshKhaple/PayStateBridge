@@ -4,6 +4,9 @@ import { useEffect, useState } from 'react'
 import { useSimStream } from '@/lib/useSimStream'
 import { PhonePane } from '@/components/world/PhonePane'
 import { RailsPane } from '@/components/world/RailsPane'
+import { ConsolePane } from '@/components/world/ConsolePane'
+import { MetricsRibbon } from '@/components/world/MetricsRibbon'
+import { Timeline } from '@/components/world/Timeline'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
 
@@ -58,8 +61,8 @@ export default function WorldPage() {
         </div>
       </header>
 
-      {/* Metrics ribbon placeholder (real in commit 3) */}
-      <div id="metrics-slot" />
+      {/* Metrics ribbon */}
+      <MetricsRibbon events={state.events} decision={state.decision} />
 
       {/* Three panes */}
       <div className="flex-1 grid min-h-0" style={{ gridTemplateColumns: '1fr 1.2fr 1fr' }}>
@@ -69,13 +72,15 @@ export default function WorldPage() {
         <div className="border-r" style={{ borderColor: 'var(--hairline)' }}>
           <RailsPane events={state.events} />
         </div>
-        <div className="flex items-center justify-center">
-          <span className="mono text-xs text-faint">CONSOLE PANE — next commit</span>
+        <div>
+          <ConsolePane events={state.events} decision={state.decision} />
         </div>
       </div>
 
-      {/* Timeline placeholder */}
-      <div id="timeline-slot" className="border-t" style={{ borderColor: 'var(--hairline)' }} />
+      {/* Timeline */}
+      <div className="border-t" style={{ borderColor: 'var(--hairline)' }}>
+        <Timeline events={state.events} decision={state.decision} />
+      </div>
     </div>
   )
 }
