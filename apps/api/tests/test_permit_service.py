@@ -19,11 +19,13 @@ async def setup_db():
 
 
 async def create_case_with_payment_state(payment_state: str, order_status: str = "payment_pending") -> str:
+    import uuid
     from datetime import datetime, timezone
+    uid = uuid.uuid4().hex[:8]
     async with AsyncSessionLocal() as db:
         order = MerchantOrder(
-            order_id=f"ORD-PERMIT-{id(object())}",
-            reference=f"ORD-PERMIT-{id(object())}",
+            order_id=f"ORD-PERMIT-{uid}",
+            reference=f"ORD-PERMIT-{uid}",
             amount_paise=99900,
             status=order_status,
             created_at=datetime(2026, 8, 30, 8, 0, 0, tzinfo=timezone.utc),

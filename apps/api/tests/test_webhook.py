@@ -100,11 +100,14 @@ async def test_duplicate_event_is_ignored():
 @pytest.mark.asyncio
 async def test_webhook_transitions_case_to_recovery_paid():
     from datetime import datetime, timezone
+    import uuid
+    uid = uuid.uuid4().hex[:8]
+    order_id_str = f"ORD-WH-{uid}"
     # Create a case + link action in DB
     async with AsyncSessionLocal() as db:
         order = MerchantOrder(
-            order_id="ORD-WH-001",
-            reference="ORD-WH-001",
+            order_id=order_id_str,
+            reference=order_id_str,
             amount_paise=99900,
             status="payment_pending",
             created_at=datetime(2026, 8, 30, 8, 0, 0, tzinfo=timezone.utc),
@@ -112,7 +115,7 @@ async def test_webhook_transitions_case_to_recovery_paid():
         db.add(order)
         await db.flush()
         case = PaymentCase(
-            order_id="ORD-WH-001",
+            order_id=order_id_str,
             state="RECOVERY_LINK_CREATED",
             payment_state="FAILED",
         )
@@ -121,8 +124,8 @@ async def test_webhook_transitions_case_to_recovery_paid():
         link_action = RecoveryAction(
             case_id=case.id,
             action_kind="RECOVERY_LINK",
-            idempotency_key="idem_wh_001",
-            provider_link_id="fake_link_webhook_test",
+            idempotency_key=f"idem_wh_{uid}",
+            provider_link_id=f"fake_link_{uid}",
             status="fake_provider_v1",
             expires_at=datetime(2026, 9, 5, 0, 0, 0, tzinfo=timezone.utc),
         )
@@ -130,7 +133,7 @@ async def test_webhook_transitions_case_to_recovery_paid():
         await db.commit()
         case_id = case.id
 
-    body = _make_paid_payload("fake_link_webhook_test", "pay_wh_001", event_id="evt_wh_unique_001")
+    body = _make_paid_payload(f"fake_link_{uid}", "pay_wh_001", event_id=f"evt_wh_{uid}")
     sig = _sign(body)
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
         resp = await client.post(

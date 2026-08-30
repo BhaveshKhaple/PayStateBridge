@@ -142,8 +142,14 @@ def classify(
         state = PaymentState.OUTCOME_UNKNOWN
 
     evidence_ids.append(order.order_id)
-    if state == PaymentState.OUTCOME_UNKNOWN and not gateway_events:
-        action = RecoveryAction.DO_NOT_RETRY
+    if state == PaymentState.OUTCOME_UNKNOWN:
+        if not gateway_events:
+            if customer_report and customer_report.reported_status == "success":
+                action = RecoveryAction.BUILD_EVIDENCE_PACKET
+            else:
+                action = RecoveryAction.DO_NOT_RETRY
+        else:
+            action = _STATE_TO_ACTION[state]
     else:
         action = _STATE_TO_ACTION[state]
 

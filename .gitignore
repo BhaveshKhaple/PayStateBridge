@@ -39,6 +39,7 @@ test-results/
 
 # Build
 .turbo/
+*.tsbuildinfo
 
 # Eval reports
 eval_report.json

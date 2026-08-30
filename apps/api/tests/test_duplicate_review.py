@@ -23,11 +23,13 @@ async def setup_db():
 
 
 async def create_duplicate_case(num_captured: int = 2) -> str:
+    import uuid
     from datetime import datetime, timezone
+    uid = uuid.uuid4().hex[:8]
     async with AsyncSessionLocal() as db:
         order = MerchantOrder(
-            order_id=f"ORD-DUP-{id(object())}",
-            reference=f"ORD-DUP-{id(object())}",
+            order_id=f"ORD-DUP-{uid}",
+            reference=f"ORD-DUP-{uid}",
             amount_paise=99900,
             status="payment_pending",
             created_at=datetime(2026, 8, 30, 8, 0, 0, tzinfo=timezone.utc),

@@ -31,11 +31,13 @@ async def create_test_case(
     num_captured: int = 1,
 ) -> str:
     """Helper: create a minimal case in the DB for testing."""
+    import uuid
     from datetime import datetime, timezone
+    uid = uuid.uuid4().hex[:8]
     async with AsyncSessionLocal() as db:
         order = MerchantOrder(
-            order_id=f"ORD-TEST-{id(object())}",
-            reference=f"ORD-TEST-{id(object())}",
+            order_id=f"ORD-TEST-{uid}",
+            reference=f"ORD-TEST-{uid}",
             amount_paise=order_amount,
             status=order_status,
             created_at=datetime(2026, 8, 30, 8, 0, 0, tzinfo=timezone.utc),
