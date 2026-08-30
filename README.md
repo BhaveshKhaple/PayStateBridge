@@ -46,6 +46,14 @@ ambiguous payment
 
 ---
 
+## Live deployment
+
+PayState Bridge deploys as a Vercel (web) + Railway/Render (API) pair. See **[DEPLOY.md](DEPLOY.md)** for the full step-by-step guide, including env vars, CORS wiring, and the optional Razorpay Test Mode webhook.
+
+Live demo: _(add Vercel URL after deploy)_
+
+---
+
 ## Quick start (local)
 
 ### Prerequisites
