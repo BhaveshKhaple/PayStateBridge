@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useSimStream } from '@/lib/useSimStream'
 import { PhonePane } from '@/components/world/PhonePane'
+import { RailsPane } from '@/components/world/RailsPane'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
 
@@ -65,11 +66,8 @@ export default function WorldPage() {
         <div className="border-r" style={{ borderColor: 'var(--hairline)' }}>
           <PhonePane events={state.events} decision={state.decision} />
         </div>
-        <div
-          className="border-r flex items-center justify-center"
-          style={{ borderColor: 'var(--hairline)' }}
-        >
-          <span className="mono text-xs text-faint">RAILS PANE — next commit</span>
+        <div className="border-r" style={{ borderColor: 'var(--hairline)' }}>
+          <RailsPane events={state.events} />
         </div>
         <div className="flex items-center justify-center">
           <span className="mono text-xs text-faint">CONSOLE PANE — next commit</span>
