@@ -95,6 +95,12 @@ html, body {
 }
 .animate-packet-pulse { animation: packetPulse 1s ease-in-out infinite; }
 
+/* SMS banner drop into the phone screen */
+@keyframes phoneSmsDrop {
+  from { transform: translateY(-12px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
 /* Focus ring — never remove, use accent */
 *:focus-visible {
   outline: 2px solid var(--accent);

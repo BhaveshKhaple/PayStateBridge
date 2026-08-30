@@ -32,6 +32,12 @@ export default function HomePage() {
         {/* CTA */}
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <Link
+            href="/world"
+            className="px-6 py-3 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-500 transition-colors shadow-sm"
+          >
+            Enter PayState World →
+          </Link>
+          <Link
             href="/cases"
             className="px-6 py-3 bg-gray-900 text-white rounded-lg font-medium hover:bg-gray-700 transition-colors"
           >
