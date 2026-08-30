@@ -39,10 +39,12 @@ app.add_middleware(
 )
 
 from app.api.webhooks import router as webhooks_router
+from app.sim.stream import router as sim_router
 
 app.include_router(health_router)
 app.include_router(cases_router)
 app.include_router(webhooks_router)
+app.include_router(sim_router)
 
 
 @app.get("/")
