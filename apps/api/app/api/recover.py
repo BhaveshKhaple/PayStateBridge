@@ -4,9 +4,15 @@ from __future__ import annotations
 from fastapi import APIRouter
 from pydantic import BaseModel
 
+from app.domain.rules_kb import CITATIONS
 from app.services.lookup_service import lookup_and_decide
 
 router = APIRouter(prefix="/v1/recover", tags=["recover"])
+
+
+@router.get("/rules")
+async def list_rules() -> list[dict]:
+    return [c.model_dump() for c in CITATIONS.values()]
 
 
 class RecoverLookupRequest(BaseModel):

@@ -8,6 +8,7 @@ from __future__ import annotations
 from datetime import datetime, timezone
 
 from app.domain.classifier import classify
+from app.domain.rules_kb import cite_reason_codes
 from app.schemas.payment import GatewayPaymentEvent, MerchantOrderSchema
 from app.services.recovery_link_service import get_payment_provider
 
@@ -80,6 +81,7 @@ async def lookup_and_decide(
             "state": decision.state.value,
             "action": decision.action.value,
             "reason_codes": decision.reason_codes,
+            "citations": cite_reason_codes(decision.reason_codes),
             "customer_message": decision.customer_message,
             "policy_version": decision.policy_version,
         },

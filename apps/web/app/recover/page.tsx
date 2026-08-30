@@ -6,6 +6,14 @@ import { Button, Pill, stateToPillVariant } from '@/components/ui'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
 
+type Citation = {
+  rule_id: string
+  title: string
+  principle: string
+  source: string
+  source_kind: 'razorpay' | 'npci' | 'paystate_policy'
+}
+
 type LookupResult = {
   found?: boolean
   error?: string
@@ -25,6 +33,7 @@ type LookupResult = {
     state: string
     action: string
     reason_codes: string[]
+    citations?: Citation[]
     customer_message: string
     policy_version: string
   }
@@ -39,6 +48,30 @@ const EXAMPLES: { id: string; label: string }[] = [
 ]
 
 const DANGER_STATES = new Set(['PENDING', 'OUTCOME_UNKNOWN'])
+
+const SOURCE_CHIP: Record<
+  Citation['source_kind'],
+  { label: string; bg: string; fg: string; border: string }
+> = {
+  razorpay: {
+    label: 'Razorpay',
+    bg: 'var(--accent-soft, rgba(99,102,241,0.12))',
+    fg: 'var(--accent, #a5b4fc)',
+    border: '1px solid rgba(99,102,241,0.35)',
+  },
+  npci: {
+    label: 'NPCI / RBI',
+    bg: 'var(--pending-soft)',
+    fg: 'var(--pending)',
+    border: '1px solid rgba(232,163,61,0.35)',
+  },
+  paystate_policy: {
+    label: 'PayState policy',
+    bg: 'var(--bg-2)',
+    fg: 'var(--muted)',
+    border: '1px solid var(--hairline-strong)',
+  },
+}
 
 export default function RecoverPage() {
   const [value, setValue] = useState('')
@@ -283,6 +316,70 @@ export default function RecoverPage() {
                   </span>
                 ))}
               </div>
+
+              {/* Why this decision — sourced audit trail */}
+              {result.decision.citations && result.decision.citations.length > 0 && (
+                <div className="space-y-3">
+                  <div
+                    className="mono text-xs uppercase tracking-widest"
+                    style={{ color: 'var(--muted)', letterSpacing: '0.08em' }}
+                  >
+                    Why this decision
+                  </div>
+                  <div className="space-y-2">
+                    {result.decision.citations.map((cite) => {
+                      const chip = SOURCE_CHIP[cite.source_kind]
+                      return (
+                        <div
+                          key={cite.rule_id}
+                          className="rounded-md px-4 py-3 space-y-2"
+                          style={{
+                            background: 'var(--bg-2)',
+                            border: '1px solid var(--hairline)',
+                          }}
+                        >
+                          <div className="flex items-center justify-between gap-2">
+                            <span
+                              className="mono text-xs"
+                              style={{ color: 'var(--faint)' }}
+                            >
+                              {cite.rule_id}
+                            </span>
+                            <span
+                              className="text-xs font-medium px-2 py-0.5 rounded-md whitespace-nowrap"
+                              style={{
+                                background: chip.bg,
+                                color: chip.fg,
+                                border: chip.border,
+                              }}
+                            >
+                              {chip.label}
+                            </span>
+                          </div>
+                          <div
+                            className="text-sm font-semibold leading-snug"
+                            style={{ color: 'var(--ink)' }}
+                          >
+                            {cite.title}
+                          </div>
+                          <p
+                            className="text-sm leading-relaxed"
+                            style={{ color: 'var(--body)' }}
+                          >
+                            {cite.principle}
+                          </p>
+                          <div
+                            className="mono text-xs leading-relaxed"
+                            style={{ color: 'var(--faint)' }}
+                          >
+                            {cite.source}
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+              )}
 
               {/* Customer message */}
               <div
